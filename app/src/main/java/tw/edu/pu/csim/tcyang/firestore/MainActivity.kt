@@ -66,6 +66,21 @@ class MainActivity : AppCompatActivity() {
                         }
             }
         })
+
+        btnDelete.setOnClickListener(object:View.OnClickListener{
+            override fun onClick(p0: View?) {
+                db.collection("Users")
+                        .document(edtName.text.toString())
+                        .delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(baseContext, "刪除資料成功",
+                                    Toast.LENGTH_LONG).show() }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(baseContext, "刪除資料失敗：" + e.toString(),
+                                    Toast.LENGTH_LONG).show()}
+            }
+
+        })
     }
 
 }
