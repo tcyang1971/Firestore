@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -38,7 +39,10 @@ class MainActivity : AppCompatActivity() {
         btnQuery.setOnClickListener(object:View.OnClickListener{
             override fun onClick(p0: View?) {
                 db.collection("Users")
-                        .whereEqualTo("名字", edtName.text.toString())
+                        //.whereEqualTo("名字", edtName.text.toString())
+                        //.whereLessThan("出生體重", edtWeight.text.toString().toInt())
+                        .orderBy("出生體重", Query.Direction.DESCENDING)
+                        .limit(2)
                         .get()
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
