@@ -34,5 +34,34 @@ class MainActivity : AppCompatActivity() {
                         }
             }
         })
+
+        btnQuery.setOnClickListener(object:View.OnClickListener{
+            override fun onClick(p0: View?) {
+                db.collection("Users")
+                        .whereEqualTo("名字", edtName.text.toString())
+                        .get()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                var msg:String = ""
+                                for (document in task.result!!) {
+                                    msg += "文件id：" + document.id + ":\n名字：" + document.data["名字"] +
+                                            "\n出生體重：" + document.data["出生體重"].toString() + "\n\n"
+                                }
+                                if (msg != ""){
+                                    txv.text = msg
+                                }
+                                else {
+                                    txv.text = "查無資料"
+                                }
+                            }
+
+                            else{
+                                Toast.makeText(baseContext, "查詢失敗：" + task.exception.toString(),
+                                        Toast.LENGTH_LONG).show()
+                            }
+                        }
+            }
+        })
     }
+
 }
